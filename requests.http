@@ -1,0 +1,32 @@
+@baseUrl = http://localhost:8082
+@serviceOrderId = 00000000-0000-0000-0000-000000000001
+@correlationId = 00000000-0000-0000-0000-000000000002
+@executionId = 00000000-0000-0000-0000-000000000005
+
+### Health
+GET {{baseUrl}}/health
+
+### Queue execution
+POST {{baseUrl}}/executions
+Content-Type: application/json
+
+{
+  "serviceOrderId": "{{serviceOrderId}}",
+  "correlationId": "{{correlationId}}"
+}
+
+### Advance execution
+PUT {{baseUrl}}/executions/{{executionId}}/status
+Content-Type: application/json
+
+{
+  "status": "InDiagnosis"
+}
+
+### Complete execution
+PUT {{baseUrl}}/executions/{{executionId}}/status
+Content-Type: application/json
+
+{
+  "status": "Completed"
+}
