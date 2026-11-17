@@ -2,7 +2,7 @@ name: Execution Service CI/CD
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [master]
 permissions:
   contents: read
   packages: write
@@ -39,7 +39,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: docker/build-push-action@v6
-        with: { context: ., push: true, tags: ghcr.io/${{ github.repository }}:${{ github.sha }} }
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}:${{ github.sha }}
+            ghcr.io/${{ github.repository }}:latest
   deploy:
     if: github.event_name == 'push'
     needs: container
